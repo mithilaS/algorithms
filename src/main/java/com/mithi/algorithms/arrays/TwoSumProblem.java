@@ -26,18 +26,14 @@ public class TwoSumProblem {
     public static int[] twoSum(int[] nums, int target) {
 
         Map<Integer, Integer> intMap = new HashMap<>();
-
         int[] results = new int[2];
 
         for(int i =0 ; i<nums.length; intMap.put(nums[i] , i ) ,i++) {
-
-
             if(intMap.containsKey(target-nums[i])){
                 results[0] =  intMap.get(target-nums[i]);
                 results[1] =  i;
                 return results;
             }
-
         }
         return results;
     }
