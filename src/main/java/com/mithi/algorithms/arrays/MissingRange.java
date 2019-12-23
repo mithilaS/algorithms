@@ -14,7 +14,8 @@ Output: ["2", "4->49", "51->74", "76->99"]
 public class MissingRange {
 
     public static void main(String[] args) {
-        findMissingRanges(new int[]{0,1,3,50,75}, 0,99);
+        List<String> m = findMissingRanges(new int[]{-1}, -2,-1);
+        System.out.println(m);
     }
     public static List<String> findMissingRanges(int[] nums, int lower, int upper) {
         List<String> missing = new ArrayList<>();
@@ -22,12 +23,17 @@ public class MissingRange {
         check first no is lower bound or not if not then start range from there only.
         to make range no need to iterate all. Just get the number before the next number in array.
          */
-        if(lower-upper==0){
+        if(lower-upper==0 && nums.length==0){
             missing.add(String.valueOf(lower));
             return missing;
         }
 
-        if(lower > upper){
+        if(lower > upper || (lower-upper==0) && nums.length>0){
+            return missing;
+        }
+
+        if(nums.length==0 && Math.abs(upper-lower) >0){
+            missing.add(String.valueOf(lower + "->" +upper));
             return missing;
         }
         for (int i =0;i<nums.length-1;i++) {
@@ -36,7 +42,7 @@ public class MissingRange {
             if(i==0 & nums[i]>lower){
 
               str.append(lower);
-              if(nums[i]-lower >1){
+              if(Math.abs(nums[i]-lower) >1){
                   str.append("->" ).append(nums[i]-1);
               }
               if(str.toString().length()>0)
@@ -44,10 +50,10 @@ public class MissingRange {
             }else{
                 int firstNum = nums[i];
                 int nextNum = nums[i+1];
-                if(nextNum-firstNum ==2){
+                if(Math.abs(nextNum-firstNum) ==2){
                     // this means only one number in between
                     missing.add(String.valueOf(firstNum+1));
-                }else if((nextNum-firstNum )>2 && (nextNum <=upper)){
+                }else if(Math.abs(nextNum-firstNum )>2 && (nextNum <=upper)){
                     str.append(firstNum+1).append("->").append(nextNum-1);
                     missing.add(str.toString());
                 }
@@ -55,9 +61,9 @@ public class MissingRange {
         }
         int last = nums[nums.length-1];
         if(last < upper){
-            if(upper-last ==1){
+            if(Math.abs(upper-last) ==1){
                 missing.add(String.valueOf(upper));
-            }else if(upper-last >1){
+            }else if(Math.abs(upper-last) >1){
                 StringBuilder str = new StringBuilder();
                 str.append(last+1).append("->").append(upper);
                 missing.add(str.toString());
