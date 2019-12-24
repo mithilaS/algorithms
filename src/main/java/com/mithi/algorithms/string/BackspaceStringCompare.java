@@ -30,5 +30,36 @@ S and T only contain lowercase letters and '#' characters.
  */
 public class BackspaceStringCompare {
 
+    public static void main(String[] args) {
+        boolean t = backspaceCompare("ab##ef" ,"c#d#gh");
+        System.out.println(t);
+    }
+    public static boolean backspaceCompare(String S, String T) {
+        String sh = getReplacedString(S);
+        String th = getReplacedString(T);
+        System.out.println("sh: " + sh);
+        System.out.println("th: " + th);
+        return sh.equals(th);
+    }
+    private static String getReplacedString(String input) {
+        int sub = 0;
+        int fi = 0;
+        char[]arr = input.toCharArray();
+        while(fi < arr.length) {
+            if(arr[fi]!='#') {
+                arr[sub] = arr[fi];
+                System.out.println(arr);
+
+                sub++;
+            }else if(sub > 0){
+                // reduce the count if # is found
+                sub--;
+            }
+            fi++;
+        }
+        // This is important . check third parameter
+        return new String(arr, 0, sub);
+    }
+
 }
 
