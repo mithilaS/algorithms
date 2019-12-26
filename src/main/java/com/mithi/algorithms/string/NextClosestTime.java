@@ -1,4 +1,10 @@
 package com.mithi.algorithms.string;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.TreeSet;
+
 /*
 Given a time represented in the format "HH:MM", form the next closest time by reusing the current digits.
 There is no limit on how many times a digit can be reused.
@@ -21,7 +27,8 @@ It may be assumed that the returned time is next day's time since it is smaller 
 public class NextClosestTime {
     public static void main(String[] args) {
         NextClosestTime closestTime = new NextClosestTime();
-        closestTime.nextClosestTime("19:35");
+        String result  = closestTime.nextClosestTime("19:35");
+        System.out.println(result);
     }
     public String nextClosestTime(String time) {
         /*
@@ -30,6 +37,35 @@ public class NextClosestTime {
         MM MAX IS 59
         so first try minutes.. then hour ..if exceeds 23 then add for next with lease value
          */
+        //get numbers
+
+        int minuteslast = Integer.valueOf(time.substring(4,5));
+        int minutesFirst = Integer.valueOf(time.substring(3,4));
+        int hourLast = Integer.valueOf(time.substring(1,2));
+        int hourfirst = Integer.valueOf(time.substring(0,1));
+        List<Integer> set = new ArrayList<>();
+        Integer lastAdded;
+        set.add(minutesFirst);
+        if(!set.contains(minuteslast)) {
+            set.add(minuteslast);
+        }
+        if(!set.contains(hourfirst))
+        set.add(hourfirst);
+        if(!set.contains(hourLast))
+        set.add(hourLast);
+        Collections.sort(set);
+        System.out.println(hourfirst + "  " + hourLast +" : "  +  minutesFirst + "  " + minuteslast);
+        System.out.println(set);
+        //check minute last
+        boolean minlast ;
+        if(minuteslast<9){
+            int i1 = set.indexOf(minuteslast);
+            if(i1+1 <set.size()){
+                int num  = set.get(i1+1);
+                return hourfirst+ "" + hourLast+ ":"+minutesFirst+""+ num;
+            }
+                minlast = false;
+        }
         return null;
     }
 }
