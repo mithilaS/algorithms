@@ -2,7 +2,9 @@ package com.mithi.algorithms.string;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 /*
@@ -27,16 +29,17 @@ It may be assumed that the returned time is next day's time since it is smaller 
 public class NextClosestTime {
     public static void main(String[] args) {
         NextClosestTime closestTime = new NextClosestTime();
-        String result  = closestTime.nextClosestTime("19:35");
+        String result = closestTime.nextClosestTime("17:59");
         System.out.println(result);
     }
-    public String nextClosestTime(String time) {
-        /*
+
+    /* public String nextClosestTime(String time) {
+     *//*
         HH:MM
         HH MAX IS 23
         MM MAX IS 59
         so first try minutes.. then hour ..if exceeds 23 then add for next with lease value
-         */
+         *//*
         //get numbers
 
         int minuteslast = Integer.valueOf(time.substring(4,5));
@@ -67,5 +70,57 @@ public class NextClosestTime {
                 minlast = false;
         }
         return null;
+    }*/
+   /* public String nextClosestTime(String time) {
+        int start = 60 * Integer.parseInt(time.substring(0, 2));
+        start += Integer.parseInt(time.substring(3));
+        int ans = start;
+        int elapsed = 24 * 60;
+        Set<Integer> allowed = new TreeSet<>();
+        for (char c : time.toCharArray())
+            if (c != ':') {
+                System.out.println(c - '0');
+                allowed.add(c - '0');
+            }
+        System.out.println(allowed);
+
+        for (int h1 : allowed)
+            for (int h2 : allowed)
+                if (h1 * 10 + h2 < 24) {
+                    for (int m1 : allowed)
+                        for (int m2 : allowed)
+                            if (m1 * 10 + m2 < 60) {
+                                int cur = 60 * (h1 * 10 + h2) + (m1 * 10 + m2);
+                                int candElapsed = Math.floorMod(cur - start, 24 * 60);
+                                if (0 < candElapsed && candElapsed < elapsed) {
+                                    ans = cur;
+                                    elapsed = candElapsed;
+                                }
+                            }
+                }
+
+        return String.format("%02d:%02d", ans / 60, ans % 60);
+    }*/
+    public String nextClosestTime(String time) {
+        int curTimeInt = 60 * Integer.parseInt(time.substring(0, 2));
+        curTimeInt += Integer.parseInt(time.substring(3));
+        System.out.println("cur : "  + curTimeInt);
+        Set<Integer> allowed = new TreeSet<>();
+        for (char timeDigit: time.toCharArray())
+            if (timeDigit != ':') {
+            allowed.add(timeDigit - '0');
+        }
+       while (true) {
+            curTimeInt = (curTimeInt + 1) % (24 * 60);
+            //System.out.println(curTimeInt);
+            int[] digits = new int[]{curTimeInt / 60 / 10, curTimeInt / 60 % 10, curTimeInt % 60 / 10, curTimeInt % 60 % 10};
+            search : {
+                for (int d: digits)
+                    if (!allowed.contains(d))
+                    break search;
+                return String.format("%02d:%02d", curTimeInt / 60, curTimeInt % 60);
+            }
+        }
     }
+
 }
