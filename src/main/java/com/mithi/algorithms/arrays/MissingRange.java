@@ -14,15 +14,30 @@ Output: ["2", "4->49", "51->74", "76->99"]
 public class MissingRange {
 
     public static void main(String[] args) {
-        List<String> m = findMissingRanges(new int[]{-1}, -2,-1);
+        MissingRange mr =new MissingRange();
+        List<String> m = mr.findMissingRanges(new int[]{0,1,3,50,75}, 0,99);
         System.out.println(m);
+
+
     }
-    public static List<String> findMissingRanges(int[] nums, int lower, int upper) {
+
+    public List<String> findMissingRanges(int[] nums, int lower, int upper) {
+        List<String> res = new ArrayList<>();
+        for(int i : nums) {
+            if(i > lower) res.add(lower+((i-1 > lower)?"->"+(i-1):""));
+            if(i == upper) return res; // Avoid overflow
+            lower = i+1;
+        }
+        if(lower <= upper) res.add(lower + ((upper > lower)?"->"+(upper):""));
+        return res;
+    }
+
+   /* public static List<String> findMissingRanges(int[] nums, int lower, int upper) {
         List<String> missing = new ArrayList<>();
-        /*
+        *//*
         check first no is lower bound or not if not then start range from there only.
         to make range no need to iterate all. Just get the number before the next number in array.
-         */
+         *//*
         if(lower-upper==0 && nums.length==0){
             missing.add(String.valueOf(lower));
             return missing;
@@ -71,5 +86,5 @@ public class MissingRange {
         }
         System.out.println(missing);
         return missing;
-    }
+    }*/
 }
