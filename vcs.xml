@@ -14,6 +14,10 @@
           <option name="url" value="http://bitbucket.org" />
           <option name="userName" value="mithi_s" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/william-tran/microservice-security.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="$USER_HOME$/Documents/workspace_sts" />
